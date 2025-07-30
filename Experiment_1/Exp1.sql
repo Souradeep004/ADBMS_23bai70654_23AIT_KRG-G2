@@ -1,8 +1,8 @@
 -- Creating a Database
 create database db_data
 alter database db_data modify name = db_personal
-exec sp_renamedb db_personal, db_books;
-use db_books;
+exec sp_renamedb db_books, Arka;
+use Arka;
 
 SELECT name, database_id, create_date
 FROM sys.databases;
@@ -44,7 +44,7 @@ select B.BOOK_ID as [ID], B.BOOK_NAME as [Name], B.AUTHO_ID as [Author Id] from 
 
 
 select B.BOOK_NAME as [Book Name], A.AUTHOR_NAME as [Author Name], A.COUNTRY as 'Country' 
-	   from book_table as B FULL JOIN author as A 
+	   from book_table as B INNER JOIN author as A 
 	   on A.AUTHOR_ID = B.AUTHO_ID;
 
 -- List of tables created
@@ -88,3 +88,14 @@ select D.Dept_Name as Department, D.Dept_Id, C.COUNT as 'COUNT' from dept as D I
 select D.Dept_Name as Department, D.Dept_Id from dept as D INNER JOIN
 	(select Dept, COUNT(Dept) as 'COUNT' from course group by Dept) as C on D.Dept_Id = C.Dept
 	where C.COUNT >= 2;
+
+
+-- GRANT DCL Command
+create login tt_login with password = '1234';
+GO
+
+create user tt_user for login tt_login;
+GO
+
+GRANT select on dbo.course to tt_user;
+GO
